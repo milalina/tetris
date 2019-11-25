@@ -1,0 +1,22 @@
+body{
+    background-color:#7FCDCD;
+    width: 100%;
+}
+table {
+    margin: 0 auto;
+    background-color: white;
+}
+
+#tetris-grid{
+    border-collapse: collapse;
+    
+}
+
+td{
+    width: 30px;
+    height: 30px;
+}
+
+.short-t{
+background-color: salmon;
+}
