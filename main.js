@@ -47,16 +47,17 @@ function generate_tetris_grid(){
 function element_moving_vertically(array){
   for(i in array){
     a=array[i]
-    animate(0)
-    function animate(j){
-      console.log("finally I am here")
-      myVar=setTimeout(function(){document.getElementById(a[j]+"").style.backgroundColor="salmon"
-      if (j==4){
-        clearTimeout(myVar);
-        return;
-      }animate(j+1)}
-       , 1000)
-    }
+   animate(0)
+      function animate(j){
+        myVar=setTimeout(function(){
+          for (l in a){document.getElementById(a[l]+"").style.backgroundColor="salmon"}
+        if (j==4){
+          clearTimeout(myVar);
+          return;
+        }animate(j+1)}
+         , 1000)
+      }
+    
   } 
 }
 
