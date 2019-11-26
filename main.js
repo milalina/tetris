@@ -24,10 +24,10 @@ function generate_tetris_grid(){
 } 
 
  function callShortT(){
- // j = 5;
   var k;
   var i;
-  for(var k=0; k<18; k++){
+  var short_T_as_param=[];
+  for(var k=0; k<17; k++){
     i=k;
     j=5;
     var short_T=[];
@@ -36,13 +36,38 @@ function generate_tetris_grid(){
     var c = "r"+(i)+"c"+(++j);
     var d = "r"+(i)+"c"+(++j);
     short_T.push(a,b,c,d);
-    element_moving_vertically(short_T);
+    short_T_as_param.push(short_T)
+    //console.log(short_T_as_param)
+   // short_T=[]
   }
+  element_moving_vertically(short_T_as_param);
+  console.log(short_T_as_param)
 } 
 
- function element_moving_vertically(array){
+function element_moving_vertically(array){
   for(i in array){
-    document.getElementById(array[i]+"").style.backgroundColor="salmon"
-  }
+    a=array[i]
+    animate(0)
+    function animate(j){
+      console.log("finally I am here")
+      myVar=setTimeout(function(){document.getElementById(a[j]+"").style.backgroundColor="salmon"
+      if (j==4){
+        clearTimeout(myVar);
+        return;
+      }animate(j+1)}
+       , 1000)
+    }
+  } 
 }
+
+/*  function element_moving_vertically(array){
+  for(i in array){
+    a=array[i]
+    for(j in a){
+      setTimeout(function(){document.getElementById(a[j]+"").style.backgroundColor="salmon"}, 500, j);
+   
+    }
+  }
+} */
  
+// setTimeout(()=> {k++}, 1000)  document.getElementById(a[j]+"").style.backgroundColor="salmon" 
