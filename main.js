@@ -40,26 +40,40 @@ function generate_tetris_grid(){
     //console.log(short_T_as_param)
    // short_T=[]
   }
-  element_moving_vertically(short_T_as_param);
+  display_element_moving_vertically(short_T_as_param);
+  remove_element_moving_vertically(short_T_as_param);
   console.log(short_T_as_param)
 } 
 
-function element_moving_vertically(array){
-  for(i in array){
-    a=array[i]
+function display_element_moving_vertically(array){
    animate(0)
       function animate(j){
+        a=array[j];
+        console.log(a)
         myVar=setTimeout(function(){
           for (l in a){document.getElementById(a[l]+"").style.backgroundColor="salmon"}
-        if (j==4){
+        if (j==16){
           clearTimeout(myVar);
           return;
         }animate(j+1)}
          , 1000)
       }
-    
-  } 
 }
+
+/* function remove_element_moving_vertically(array){
+  animate(0)
+  function animate(j){
+    a=array[j];
+    console.log(a)
+    myVar=setTimeout(function(){
+      for (l in a){document.getElementById(a[l]+"").style.backgroundColor="white"}
+    if (j==16){
+      clearTimeout(myVar);
+      return;
+    }animate(j+1)}
+     , 1500)
+  }
+} */
 
 /*  function element_moving_vertically(array){
   for(i in array){
