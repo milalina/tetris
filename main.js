@@ -41,13 +41,13 @@ function generate_tetris_grid(){
    // short_T=[]
   }
   display_element_moving_vertically(short_T_as_param);
-  remove_element_moving_vertically(short_T_as_param);
+ // remove_element_moving_vertically(short_T_as_param);
   console.log(short_T_as_param)
 } 
 
 function display_element_moving_vertically(array){
-   animate(0)
-      function animate(j){
+   animate_show(0)
+      function animate_show(j){
         a=array[j];
         console.log(a)
         myVar=setTimeout(function(){
@@ -55,8 +55,22 @@ function display_element_moving_vertically(array){
         if (j==16){
           clearTimeout(myVar);
           return;
-        }animate(j+1)}
-         , 1000)
+        }animate_show(j+1)}
+         , 500)
+      } 
+       animate_hide(0)
+      function animate_hide(j){
+        myVar=setTimeout(function(){
+         if(j>0 && j<19){
+           i=j-1;
+            b=array[i];
+            console.log(b)
+          for(l in b){document.getElementById(b[l]+"").style.backgroundColor="white"}}
+        if (j==19){
+          clearTimeout(myVar);
+          return;
+        }animate_hide(j+1)}
+         , 500)
       }
 }
 
