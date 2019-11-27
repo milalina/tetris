@@ -2,8 +2,15 @@ body{
     background-color:#7FCDCD;
     width: 100%;
 }
+.container{
+    display: grid;
+    grid-template-columns: 10% 60% 8% 3.5% 8% 10.5%;
+    grid-template-rows: 54% 9% 4% 8% 25%;  
+}
 table {
-    margin: 0 auto;
+    justify-self: center;
+    grid-column-start: 2;
+    grid-column-end: 3;
     background-color: white;
 }
 
@@ -20,3 +27,64 @@ td{
 .short-t{
 background-color: salmon;
 }
+
+#triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 70px solid #C3447A;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    justify-self: center;
+    /*margin-bottom: 10px;*/
+  }
+
+  #triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 70px solid #C3447A;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: auto;
+    justify-self: center;
+    margin-top: 10px;
+  }
+  #triangle-left {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-right: 70px solid #C3447A;
+    border-bottom: 20px solid transparent;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: end;
+  }
+  #triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 70px solid #C3447A;
+    border-bottom: 20px solid transparent;
+    grid-column-start: 5;
+    grid-column-end: auto;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: start;
+  }
+  .buttons{
+    height: 200px;
+    width: 200px;
+    justify-self: start;
+    grid-column-start: 3;
+    align-self: end;
+    /*grid-column-end: 3;*/
+    
+  }
