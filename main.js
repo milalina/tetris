@@ -1,5 +1,6 @@
 var x_cols_left = [];
 var x_cols_right = [];
+var col=5;
 
 generate_tetris_grid()
 add_event_listeners_to_buttons()
@@ -20,59 +21,27 @@ function generate_tetris_grid() {
   }
   grid.appendChild(tblBody);
   grid.setAttribute("border", "2");
-  display_element_moving_vertically_position_1()
-  //createArrayForDisplayingShortTverticalMovement()
+  animate_show(0);
+  animate_hide(0);
 }
 
-/* function createArrayForDisplayingShortTverticalMovement() {
-  var k;
-  var l;
-  var i;
-  var show_short_T_as_param = [];
-  var remove_short_T_as_param = [];
-  for (var k = 0; k < 17; k++) {
-    row = k;
-    col = 5;
-    var short_T = [];
-    var a = "r" + row + "c" + col;
-    var b = "r" + (++row) + "c" + (--col);
-    var c = "r" + (row) + "c" + (++col);
-    var d = "r" + (row) + "c" + (++col);
-    short_T.push(a, b, c, d);
-    show_short_T_as_param.push(short_T)
-  }
-  for (var l = 0; l < 16; l++) {
-    row = l;
-    col = 5;
-    var remove_short_T = [];
-    var a = "r" + row + "c" + col;
-    var b = "r" + (++row) + "c" + (--col);
-    var c = "r" + (row) + "c" + (++col);
-    var d = "r" + (row) + "c" + (++col);
-    remove_short_T.push(a, b, d);
-    remove_short_T_as_param.push(remove_short_T)
-  }
-  display_element_moving_vertically_position_1(show_short_T_as_param, remove_short_T_as_param);
-} */
-
-function display_element_moving_vertically_position_1() {
-  animate_show(0)
   function animate_show(j) {
     //create short-T element per row j for displaying it
-    var col =5;
     var row = j;
+   // col=5;
     col = col + x_cols_right.length - x_cols_left.length;
-    console.log(col)
+    console.log(x_cols_right.length)
+    console.log(x_cols_left.length)
+    console.log("col = "+col)
     var short_T = [];
     var a = "r" + row + "c" + col;
     var b = "r" + (++row) + "c" + (--col);
     var c = "r" + (row) + "c" + (++col);
     var d = "r" + (row) + "c" + (++col);
+    col = col-1;//compensate for shift of columns as a result of additions in var a,b,c,d
     short_T.push(a, b, c, d);
     a = short_T;
     console.log(short_T)
-    console.log("left " + x_cols_left)
-    console.log("right" + x_cols_right)
     short_T = [];
     myVar = setTimeout(function () {
       for (l in a) {
@@ -85,25 +54,30 @@ function display_element_moving_vertically_position_1() {
       animate_show(j + 1)
     }, 500)
   }
-  animate_hide(0)
 
   function animate_hide(j) {
     //create short-T element per row j for removing it
     myVar = setTimeout(function () {
       if (j > 0 && j < 17) {
         var row = j-1;
-        var col =5;
+      //  var col =5;
+        if(x_cols_right.length>0 || x_cols_left.length>0){
+          col=col+(-x_cols_right.length + x_cols_left.length)
+        }
         col = col + x_cols_right.length - x_cols_left.length;
+        console.log(x_cols_right.length)
+        console.log(x_cols_left.length)
         var remove_short_T = [];
         var a = "r" + row + "c" + col;
         var b = "r" + (++row) + "c" + (--col);
         var c = "r" + (row) + "c" + (++col);
         var d = "r" + (row) + "c" + (++col);
+        col = col-1;
         remove_short_T.push(a, b, d);
         b = remove_short_T;
-        console.log[remove_short_T];
+        console.log(remove_short_T);
         for (l in b) {
-          document.getElementById(b[l] + "").style.backgroundColor = "white"
+          document.getElementById(b[l] + "").innerHTML = "x"
         }
       }
       x_cols_right = [];
@@ -115,7 +89,7 @@ function display_element_moving_vertically_position_1() {
       animate_hide(j + 1)
     }, 500)
   }
-}
+//}
 
 // changing position of elements on the grid
 function add_event_listeners_to_buttons() {
