@@ -4,8 +4,8 @@ body{
 }
 .container{
     display: grid;
-    grid-template-columns: 10% 60% 8% 3.5% 8% 10.5%;
-    grid-template-rows: 54% 9% 4% 8% 25%;  
+    grid-template-columns: 16% 60% 2% 3.5% 8% 10.5%;
+    grid-template-rows: 57% 6% 4% 8% 25%;  
 }
 table {
     justify-self: center;
@@ -33,7 +33,7 @@ background-color: salmon;
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 70px solid #C3447A;
+    border-bottom: 40px solid #C3447A;
     grid-column-start: 4;
     grid-column-end: 5;
     grid-row-start: 2;
@@ -47,19 +47,19 @@ background-color: salmon;
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 70px solid #C3447A;
+    border-top: 40px solid #C3447A;
     grid-column-start: 4;
     grid-column-end: 5;
     grid-row-start: 4;
     grid-row-end: auto;
     justify-self: center;
-    margin-top: 10px;
+    margin-top: 15px;
   }
   #triangle-left {
     width: 0;
     height: 0;
     border-top: 20px solid transparent;
-    border-right: 70px solid #C3447A;
+    border-right: 40px solid #C3447A;
     border-bottom: 20px solid transparent;
     grid-column-start: 3;
     grid-column-end: 4;
@@ -71,7 +71,7 @@ background-color: salmon;
     width: 0;
     height: 0;
     border-top: 20px solid transparent;
-    border-left: 70px solid #C3447A;
+    border-left: 40px solid #C3447A;
     border-bottom: 20px solid transparent;
     grid-column-start: 5;
     grid-column-end: auto;
@@ -79,12 +79,41 @@ background-color: salmon;
     grid-row-end: 4;
     justify-self: start;
   }
-  .buttons{
-    height: 200px;
-    width: 200px;
-    justify-self: start;
+  
+  #rotate{
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    justify-self: center;
+    width: 40px;
+    height: 40px;
+  }
+  #down{
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: auto;
+    justify-self: center;
+    width: 40px;
+    height: 40px;
+    margin-top: 12px;
+  }
+  #left{
     grid-column-start: 3;
-    align-self: end;
-    /*grid-column-end: 3;*/
-    
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: end;
+    width: 40px;
+    height: 40px;
+  }
+  #right{
+    grid-column-start: 5;
+    grid-column-end: auto;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: start;
+    width: 40px;
+    height: 40px;
   }
