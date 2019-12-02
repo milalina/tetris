@@ -1,6 +1,8 @@
 var x_cols_left = [];
 var x_cols_right = [];
-var col=5;
+var x_cols_left_built = [];
+var x_cols_right_built = [];
+var col = 5;
 
 generate_tetris_grid()
 add_event_listeners_to_buttons()
@@ -25,70 +27,76 @@ function generate_tetris_grid() {
   animate_hide(0);
 }
 
-  function animate_show(j) {
-    //create short-T element per row j for displaying it
+function animate_show(j) {
+  //create short-T element per row j for displaying it    
+  myVar = setTimeout(function () {
     var row = j;
-   // col=5;
+    // col=5;
     col = col + x_cols_right.length - x_cols_left.length;
     console.log(x_cols_right.length)
     console.log(x_cols_left.length)
-    console.log("col = "+col)
+    console.log("col in show = " + col)
+    x_cols_left_built = x_cols_left;
+    x_cols_right_built = x_cols_right;
     var short_T = [];
     var a = "r" + row + "c" + col;
     var b = "r" + (++row) + "c" + (--col);
     var c = "r" + (row) + "c" + (++col);
     var d = "r" + (row) + "c" + (++col);
-    col = col-1;//compensate for shift of columns as a result of additions in var a,b,c,d
+    col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
     short_T.push(a, b, c, d);
     a = short_T;
-    console.log(short_T)
+    console.log("show"+short_T)
     short_T = [];
-    myVar = setTimeout(function () {
-      for (l in a) {
-        document.getElementById(a[l] + "").style.backgroundColor = "salmon"
-      }
-      if (j == 17) {
-        clearTimeout(myVar);
-        return;
-      }
-      animate_show(j + 1)
-    }, 500)
-  }
+    for (l in a) {
+      document.getElementById(a[l] + "").style.backgroundColor = "salmon"
+    }
+    if (j == 17) {
+      clearTimeout(myVar);
+      return;
+    }
+    animate_show(j + 1)
+  }, 500)
+}
 
-  function animate_hide(j) {
-    //create short-T element per row j for removing it
-    myVar = setTimeout(function () {
-      if (j > 0 && j < 17) {
-        var row = j-1;
+function animate_hide(j) {
+  //create short-T element per row j for removing it
+  myVar = setTimeout(function () {
+    if (j > 0 && j < 17) {
+      var row = j - 1;
       //  var col =5;
-        if(x_cols_right.length>0 || x_cols_left.length>0){
-          col=col+(-x_cols_right.length + x_cols_left.length)
-        }
-        col = col + x_cols_right.length - x_cols_left.length;
-        console.log(x_cols_right.length)
-        console.log(x_cols_left.length)
-        var remove_short_T = [];
-        var a = "r" + row + "c" + col;
-        var b = "r" + (++row) + "c" + (--col);
-        var c = "r" + (row) + "c" + (++col);
-        var d = "r" + (row) + "c" + (++col);
-        col = col-1;
-        remove_short_T.push(a, b, d);
-        b = remove_short_T;
-        console.log(remove_short_T);
-        for (l in b) {
-          document.getElementById(b[l] + "").innerHTML = "x"
-        }
+      if (x_cols_right_built.length > 0 || x_cols_left_built.length > 0) {
+        col = col + (-x_cols_right_built.length + x_cols_left_built.length)
       }
-      x_cols_right = [];
-      x_cols_left = [];
-      if (j == 16) {
-        clearTimeout(myVar);
-        return;
+      col = col + x_cols_right_built.length - x_cols_left_built.length;
+      console.log("col in remove = " + col)
+      console.log(x_cols_right_built.length)
+      console.log(x_cols_left_built.length)
+      var remove_short_T = [];
+      var a = "r" + row + "c" + col;
+      var b = "r" + (++row) + "c" + (--col);
+      var c = "r" + (row) + "c" + (++col);
+      var d = "r" + (row) + "c" + (++col);
+      col = col - 1;
+      remove_short_T.push(a, b, d);
+      b = remove_short_T;
+      console.log("remove"+remove_short_T);
+      for (l in b) {
+        document.getElementById(b[l] + "").innerHTML = "x"
+        //document.getElementById(b[l] + "").style.backgroundColor = "white"
       }
-      animate_hide(j + 1)
-    }, 500)
-  }
+    }
+    x_cols_right = [];
+    x_cols_left = [];
+    x_cols_right_built.length = [];
+    x_cols_left_built.length = [];
+    if (j == 16) {
+      clearTimeout(myVar);
+      return;
+    }
+    animate_hide(j + 1)
+  }, 500)
+}
 //}
 
 // changing position of elements on the grid
