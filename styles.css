@@ -117,3 +117,10 @@ background-color: salmon;
     width: 40px;
     height: 40px;
   }
+
+  .white{
+    background-color: white;
+  }
+  .salmon{
+    background-color: salmon; 
+  }

@@ -20,7 +20,7 @@ function generate_tetris_grid() {
     }
     tblBody.appendChild(row);
   }
-  
+
   grid.appendChild(tblBody);
   grid.setAttribute("border", "2");
   animate_show(0);
@@ -34,10 +34,8 @@ function animate_show(j) {
   myVar = setTimeout(function () {
     var row = j;
     var remove_short_T = [];
-    // col=5;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
-    console.log(objectForRemovingElements)
     var short_T = [];
     var a = "r" + row + "c" + col;
     var b = "r" + (++row) + "c" + (--col);
@@ -45,35 +43,37 @@ function animate_show(j) {
     var d = "r" + (row) + "c" + (++col);
     col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
     short_T.push(a, b, c, d);
+    console.log(move_x_rows)
+    console.log("row"+j)
+    console.log(short_T)
     //what cells should be cleared depending on how far left or right the element moves
-    if (move_x_rows > 0) {
-      if (move_x_rows == 1) {
-        remove_short_T.push(a, b, d);
-      } else if (move_x_rows == 2) {
-        remove_short_T.push(a, b, d);
-      } else {
-        remove_short_T.push(a, b, d);
-      }
-
-    } else if (move_x_rows < 0) {
+    if (move_x_rows < 0) {
       if (move_x_rows == -1) {
-        remove_short_T.push(a, b, d);
-      } else if (move_x_rows == -2) {
+
         remove_short_T.push(a, b, d);
       } else {
-        remove_short_T.push(a, b, d);
+        remove_short_T.push(a, b, c, d);
+      }
+    } else if (move_x_rows > 0) {
+      if (move_x_rows == 1) {
+        remove_short_T.push(a, b, c);
+      } else {
+        remove_short_T.push(a, b, c, d);
       }
     } else {
       remove_short_T.push(a, b, d);
     }
+    console.log(remove_short_T)
     objectForRemovingElements.push({
       "array_to_remove": remove_short_T,
     })
     a = short_T;
+    x_cols_right = [];
+    x_cols_left = [];
     short_T = [];
     remove_short_T = [];
     for (l in a) {
-      document.getElementById(a[l] + "").style.backgroundColor = "salmon"
+      document.getElementById(a[l] + "").className = "salmon"
     }
     if (j == 17) {
       clearTimeout(myVar);
@@ -86,23 +86,29 @@ function animate_show(j) {
 function animate_hide(j) {
   //create short-T element per row j for removing it
   myVar = setTimeout(function () {
-    console.log("inside hide function")
     if (j > 0 && j < 17) {
-      row = j - 1;
+     /*  row = j - 1;
       b = objectForRemovingElements[row].array_to_remove
       for (l in b) {
-        document.getElementById(b[l] + "").innerHTML = "x"
-        //document.getElementById(b[l] + "").style.backgroundColor = "white"
-      }
+        //document.getElementById(b[l] + "").innerHTML = "x"
+        document.getElementById(b[l] + "").style.backgroundColor = "white"
+      } */
+    /*   var salmon_table_cells=document.querySelectorAll(".salmon")
+      for(var i=0; i<salmon_table_cells.length; i++)
+      console.log(salmon_table_cells.item(i)) */
+
+      var salmon_table_cells=document.querySelectorAll(".salmon");
+      Array.prototype.forEach.call(salmon_table_cells, function (cell) {
+        console.log("hello")
+      cell.className= "white";
+});
     }
-    x_cols_right = [];
-    x_cols_left = [];
     if (j == 16) {
       clearTimeout(myVar);
       return;
     }
     animate_hide(j + 1)
-  }, 500)
+  }, 499)
 }
 //}
 
