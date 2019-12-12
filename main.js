@@ -70,7 +70,7 @@ function animate_hide(j) {
       });
     }
     console.log("remove row"+j)
-    if (j == 16) {
+    if (j == 17) {
       clearTimeout(myVar);
       return;
     }
