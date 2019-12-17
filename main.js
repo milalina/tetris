@@ -6,6 +6,10 @@ var col = 5;
 var place_element_bottom = [];
 var time_show;
 var time_hide;
+//generating elements
+var element_number;
+var final_row_show_function;
+var final_row_hide_function;
 
 generate_tetris_grid()
 add_event_listeners_to_buttons()
@@ -24,31 +28,78 @@ function generate_tetris_grid() {
     }
     tblBody.appendChild(row);
   }
-
   grid.appendChild(tblBody);
   grid.setAttribute("border", "2");
-  animate_show_spaghetti(0);
-  animate_hide_spaghetti(0);
-  setTimeout(() => {
-    col = 5
-    place_element_bottom = [];
+}
+
+
+function selectElement(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  element_number = Math.floor(Math.random() * (max - min + 1)) + min;
+  if (element_number == 1) {
     animate_show_short_T(0);
     animate_hide_short_T(0);
-  }, 8550)
-  setTimeout(() => {
     col = 5
     place_element_bottom = [];
-    animate_show_square(0);
-    animate_hide_square(0);
-  }, 17150)
+  }
+  if (element_number == 2) {
+    animate_show_spaghetti(0);
+    animate_hide_spaghetti(0);
+    col = 5
+    place_element_bottom = [];
+  }
+  if (element_number == 3) {
+    animate_show_short_Z(0)
+    animate_hide_short_Z(0)
+    col = 5
+    place_element_bottom = [];
+  }
+  if (element_number == 4) {
+    animate_show_square(0)
+    animate_hide_square(0)
+    col = 5
+    place_element_bottom = [];
+  }
+  if (element_number == 5) {
+    animate_show_L(0)
+    animate_hide_L(0)
+    col = 5
+    place_element_bottom = [];
+  }
+  console.log(element_number)
 }
+
+function calculate_landing_grid_row_show_hide_element() {
+  if (element_number == 1 || element_number == 3 || element_number == 5) {
+    if (rotate_clockwise.length == 1 || rotate_clockwise.length == 3) {
+      element_length == 3
+    } else {
+      element_length == 2
+    }
+  }
+  if (element_number == 4) {
+    element_length == 2
+  }
+  if (element_number == 1) {
+    if (rotate_clockwise.length == 1 || rotate_clockwise.length == 3) {
+      element_length == 1
+    } else {
+      element_length = 4
+    }
+
+  }
+  final_row_show_function=17-(element_length-1)+2;
+  final_row_hide_function=final_row_show_function-1;
+}
+
 //---------------------------------------------------------------------------
 //short-T element start
 function animate_show_short_T(j) {
   //create short-T element per row j for displaying it  
   setting_time_for_element_motion_down()
   myVar = setTimeout(function () {
-    var final_row;
+   // var final_row;
     var row = j;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
@@ -66,9 +117,10 @@ function animate_show_short_T(j) {
       var c = "r" + (row) + "c" + (++col);
       var d = "r" + (row) + "c" + (++col);
       col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
+      calculate_landing_grid_row_show_hide_element()
       short_T.push(a, b, c, d);
       rotate_clockwise = [];
-      final_row = 17;
+     // final_row = 17;
     }
     //the element points right (square a faces right)
     if (rotate_clockwise.length == 1) {
@@ -83,8 +135,9 @@ function animate_show_short_T(j) {
       var c = "r" + (++row) + "c" + (col);
       var a = "r" + (row) + "c" + (++col);
       var d = "r" + (++row) + "c" + (--col);
+      calculate_landing_grid_row_show_hide_element()
       short_T.push(a, b, c, d);
-      final_row = 15;
+    //  final_row = 15;
     }
     //the element points down (square a faces down)
     if (rotate_clockwise.length == 2) {
@@ -99,8 +152,9 @@ function animate_show_short_T(j) {
       var d = "r" + row + "c" + (--col);
       var b = "r" + (row) + "c" + (col + 2);
       var a = "r" + (++row) + "c" + (++col);
+      calculate_landing_grid_row_show_hide_element()
       short_T.push(a, b, c, d);
-      final_row = 17;
+      //final_row = 17;
     }
     //the element points left (square a faces left)
     if (rotate_clockwise.length == 3) {
@@ -115,8 +169,9 @@ function animate_show_short_T(j) {
       var a = "r" + row + "c" + (--col);
       var d = "r" + (--row) + "c" + (++col);
       var b = "r" + (row + 2) + "c" + (col);
+      calculate_landing_grid_row_show_hide_element()
       short_T.push(a, b, c, d);
-      final_row = 16;
+      //final_row = 16;
     }
     a = short_T;
     x_cols_right = [];
@@ -125,27 +180,26 @@ function animate_show_short_T(j) {
     for (l in a) {
       document.getElementById(a[l] + "").className = "salmon"
     }
-    console.log("show row" + j)
 
-    if (j == final_row) {
+    if (j == final_row_show_function) {
       clearTimeout(myVar);
       return;
     }
     animate_show_short_T(j + 1)
   }, time_show)
 }
+
 function animate_hide_short_T(j) {
   setting_time_for_element_motion_down()
   //remove element
   myVar = setTimeout(function () {
-    if (j > 0 && j < 17) {
+    if (j > 0 && j < final_row_hide_function) {
       var salmon_table_cells = document.querySelectorAll(".salmon");
       Array.prototype.forEach.call(salmon_table_cells, function (cell) {
         cell.className = "white";
       });
     }
-    console.log("remove row" + j)
-    if (j == 17) {
+    if (j == final_row_hide_function) {
       clearTimeout(myVar);
       return;
     }
@@ -160,7 +214,7 @@ function animate_show_short_Z(j) {
   setting_time_for_element_motion_down()
   myVar = setTimeout(function () {
     var final_row;
-    var row = j;
+   // var row = j;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
     //the element points up (square b a face up)
@@ -177,9 +231,10 @@ function animate_show_short_Z(j) {
       var c = "r" + (++row) + "c" + (col);
       var d = "r" + (row) + "c" + (++col);
       col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
+      calculate_landing_grid_row_show_hide_element()
       short_z.push(a, b, c, d);
       rotate_clockwise = [];
-      final_row = 17;
+      //final_row = 17;
     }
     //the element points right (squares ba face right)
     if (rotate_clockwise.length == 1) {
@@ -194,8 +249,9 @@ function animate_show_short_Z(j) {
       var c = "r" + (++row) + "c" + (--col);
       var a = "r" + (row) + "c" + (++col);
       var d = "r" + (++row) + "c" + (--col);
+      calculate_landing_grid_row_show_hide_element()
       short_z.push(a, b, c, d);
-      final_row = 15;
+     // final_row = 15;
     }
     //the element points down (squares b a face down)
     if (rotate_clockwise.length == 2) {
@@ -210,8 +266,9 @@ function animate_show_short_Z(j) {
       var d = "r" + row + "c" + (--col);
       var b = "r" + (++row) + "c" + (col + 2);
       var a = "r" + (row) + "c" + (++col);
+      calculate_landing_grid_row_show_hide_element()
       short_z.push(a, b, c, d);
-      final_row = 17;
+     // final_row = 17;
     }
     //the element points left (squares b, a face left)
     if (rotate_clockwise.length == 3) {
@@ -227,8 +284,9 @@ function animate_show_short_Z(j) {
       var d = "r" + (--row) + "c" + (++col);
       var b = "r" + (row + 2) + "c" + (--col);
       col = col + 1;
+      calculate_landing_grid_row_show_hide_element()
       short_z.push(a, b, c, d);
-      final_row = 16;
+     // final_row = 16;
     }
     a = short_z;
     x_cols_right = [];
@@ -240,25 +298,26 @@ function animate_show_short_Z(j) {
     }
     console.log("show row" + j)
 
-    if (j == final_row) {
+    if (j == final_row_show_function) {
       clearTimeout(myVar);
       return;
     }
     animate_show_short_Z(j + 1)
   }, time_show)
 }
+
 function animate_hide_short_Z(j) {
   setting_time_for_element_motion_down()
   //remove element
   myVar = setTimeout(function () {
-    if (j > 0 && j < 17) {
+    if (j > 0 && j < final_row_hide_function) {
       var salmon_table_cells = document.querySelectorAll(".green");
       Array.prototype.forEach.call(salmon_table_cells, function (cell) {
         cell.className = "white";
       });
     }
     console.log("remove row" + j)
-    if (j == 17) {
+    if (j == final_row_hide_function) {
       clearTimeout(myVar);
       return;
     }
@@ -272,7 +331,7 @@ function animate_show_square(j) {
   //create short-Z element per row j for displaying it  
   setting_time_for_element_motion_down()
   myVar = setTimeout(function () {
-    var final_row;
+   // var final_row;
     var row = j;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
@@ -289,10 +348,10 @@ function animate_show_square(j) {
     var c = "r" + (++row) + "c" + (--col);
     var d = "r" + (row) + "c" + (++col);
     col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
+    calculate_landing_grid_row_show_hide_element()
     square.push(a, b, c, d);
     rotate_clockwise = [];
-    final_row = 17;
-
+    //final_row = 17;
     a = square;
     x_cols_right = [];
     x_cols_left = [];
@@ -303,25 +362,25 @@ function animate_show_square(j) {
     }
     console.log("show row" + j)
 
-    if (j == final_row) {
+    if (j == final_row_show_function) {
       clearTimeout(myVar);
       return;
     }
     animate_show_square(j + 1)
   }, time_show)
 }
+
 function animate_hide_square(j) {
   setting_time_for_element_motion_down()
   //remove element
   myVar = setTimeout(function () {
-    if (j > 0 && j < 17) {
+    if (j > 0 && j < final_row_hide_function) {
       var salmon_table_cells = document.querySelectorAll(".blue");
       Array.prototype.forEach.call(salmon_table_cells, function (cell) {
         cell.className = "white";
       });
     }
-    console.log("remove row" + j)
-    if (j == 17) {
+    if (j == final_row_hide_function) {
       clearTimeout(myVar);
       return;
     }
@@ -335,7 +394,7 @@ function animate_show_L(j) {
   //create L element per row j for displaying it, a(top row, left), b,c,d(bottom row). c as a starting point
   setting_time_for_element_motion_down()
   myVar = setTimeout(function () {
-    var final_row;
+   // var final_row;
     var row = j;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
@@ -353,9 +412,10 @@ function animate_show_L(j) {
       var c = "r" + (row) + "c" + (++col);
       var d = "r" + (row) + "c" + (++col);
       col = col - 1; //compensate for shift of columns as a result of additions in var a,b,c,d
+      calculate_landing_grid_row_show_hide_element()
       short_L.push(a, b, c, d);
       rotate_clockwise = [];
-      final_row = 17;
+     // final_row = 17;
     }
     //the element points right (square a faces right)
     if (rotate_clockwise.length == 1) {
@@ -371,8 +431,9 @@ function animate_show_L(j) {
       var d = "r" + (++row) + "c" + col;
       var a = "r" + (row - 2) + "c" + (++col);
       col = col - 1
+      calculate_landing_grid_row_show_hide_element()
       short_L.push(a, b, c, d);
-      final_row = 15;
+     // final_row = 15;
     }
     //the element points down (square a faces down)
     if (rotate_clockwise.length == 2) {
@@ -388,8 +449,9 @@ function animate_show_L(j) {
       var d = "r" + row + "c" + (++col);
       var a = "r" + (++row) + "c" + (col);
       col = col - 1
+      calculate_landing_grid_row_show_hide_element()
       short_L.push(a, b, c, d);
-      final_row = 17;
+     // final_row = 17;
     }
     //the element points left (square a faces left)
     if (rotate_clockwise.length == 3) {
@@ -404,8 +466,9 @@ function animate_show_L(j) {
       var c = "r" + (++row) + "c" + (col);
       var d = "r" + (++row) + "c" + (col);
       var a = "r" + (row) + "c" + (--col);
+      calculate_landing_grid_row_show_hide_element()
       short_L.push(a, b, c, d);
-      final_row = 16;
+     // final_row = 16;
     }
     a = short_L;
     x_cols_right = [];
@@ -416,25 +479,25 @@ function animate_show_L(j) {
     }
     console.log("show row" + j)
 
-    if (j == final_row) {
+    if (j == final_row_show_function) {
       clearTimeout(myVar);
       return;
     }
     animate_show_L(j + 1)
   }, time_show)
 }
+
 function animate_hide_L(j) {
   setting_time_for_element_motion_down()
   //remove element
   myVar = setTimeout(function () {
-    if (j > 0 && j < 17) {
+    if (j > 0 && j < final_row_hide_function) {
       var salmon_table_cells = document.querySelectorAll(".yellow");
       Array.prototype.forEach.call(salmon_table_cells, function (cell) {
         cell.className = "white";
       });
     }
-    console.log("remove row" + j)
-    if (j == 17) {
+    if (j == final_row_hide_function) {
       clearTimeout(myVar);
       return;
     }
@@ -448,7 +511,7 @@ function animate_show_spaghetti(j) {
   //create short-Z element per row j for displaying it  
   setting_time_for_element_motion_down()
   myVar = setTimeout(function () {
-    var final_row;
+    //var final_row;
     var row = j;
     var move_x_rows = x_cols_right.length - x_cols_left.length;
     col = col + move_x_rows;
@@ -465,7 +528,7 @@ function animate_show_spaghetti(j) {
       var b = "r" + (++row) + "c" + (col);
       var c = "r" + (++row) + "c" + (col);
       var d = "r" + (++row) + "c" + (col);
-      final_row = 16;
+      //final_row = 16;
     }
 
     if (rotate_clockwise.length == 1 || rotate_clockwise.length == 3) {
@@ -477,13 +540,14 @@ function animate_show_spaghetti(j) {
         col = 9
       }
       var spaghetti = [];
-      var a = "r" + row + "c" + (col-2);
+      var a = "r" + row + "c" + (col - 2);
       var b = "r" + row + "c" + (--col);
       var c = "r" + row + "c" + (++col);
       var d = "r" + row + "c" + (++col);
-      final_row = 18;
-      col=col-1
+      //final_row = 19;
+      col = col - 1
     }
+    calculate_landing_grid_row_show_hide_element()
     spaghetti.push(a, b, c, d);
     a = spaghetti;
     x_cols_right = [];
@@ -492,24 +556,25 @@ function animate_show_spaghetti(j) {
     for (l in a) {
       document.getElementById(a[l] + "").className = "orange"
     }
-    if (j == final_row) {
+    if (j == final_row_show_function) {
       clearTimeout(myVar);
       return;
     }
     animate_show_spaghetti(j + 1)
   }, time_show)
 }
+
 function animate_hide_spaghetti(j) {
   setting_time_for_element_motion_down()
   //remove element
   myVar = setTimeout(function () {
-    if (j > 0 && j < 15) {
+    if (j > 0 && j < final_row_hide_function) {
       var salmon_table_cells = document.querySelectorAll(".orange");
       Array.prototype.forEach.call(salmon_table_cells, function (cell) {
         cell.className = "white";
       });
     }
-    if (j == 15) {
+    if (j == final_row_hide_function) {
       clearTimeout(myVar);
       return;
     }
@@ -532,9 +597,10 @@ function add_event_listeners_to_buttons() {
   document.getElementById("down").addEventListener("click", function () {
     place_element_down(1);
   });
-  /*  document.getElementById("start").addEventListener("click", function () {
-    myFunction(1);
+  document.getElementById("start").addEventListener("click", function () {
+    selectElement(1, 5);
   });
+  /*
   document.getElementById("pause").addEventListener("click", function () {
     myFunction(1);
   });
